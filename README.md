@@ -60,6 +60,59 @@ This is the official implementation of paper:
 
 ## Testing
 
+1. Download training and testing dataset from https://drive.google.com/file/d/1XyljeKuDSE0WSV5NPXF02GRkDFUjeMeQ/view?usp=sharing . Extract `SingleDepth` folder under `sample_data` folder.
 
+2. Download pre-trained weights from https://drive.google.com/file/d/1mNWecKFdkqeuz_3bUqWbWSlFVfH6tcDI/view?usp=sharing. Extract `motion_im` folder under `results` folder.
+
+3. After the first two steps, your project structure looks like this:
+
+   ```
+   HOIC
+   ├── assets
+   ├── config
+   ├── InferenceServer
+   ├── mujoco210
+   │   ├── bin
+   │   ├── include
+   │   ├── model
+   │   └── sample
+   ├── results
+   │   └── motion_im
+   │       ├── banana_future5_light_add_geom
+   │       ├── bottle_future5_light_add_geom
+   │       └── box_future5_light_add_geom
+   ├── sample_data
+   │   └── SingleDepth
+   │       ├── Banana
+   │       ├── Bottle
+   │       └── Box
+   ├── scripts
+   └── uhc
+   ```
+
+3. Run the following command under **the project root** folder:
+
+   ```Shell
+   python eval_handmimic.py --cfg box_future5_light_add_geom --epoch 4000
+   ```
+
+    where `box_future5_light_add_geom` is the config for `Box` object, it can be replaced with `bottle_future5_light_add_geom` and `banana_future5_light_add_geom`
+   
+   
 
 ## Training
+
+1. Download training and testing dataset from . Extract `SingleDepth` folder under `sample_data` folder. (The same as testing)
+
+2. Run the following command under **the project root** folder:
+
+   ```Shell
+   python train_hand_mimic.py --cfg box_future5_light_add_geom --num_threads 32 --gpu_index 0
+   ```
+
+   where the option `--num_threads` and option `--gpu_index` can be set depending on your hardware, but currently this project only support one GPU for training.
+
+   By default, the checkpoint will be save under 
+
+   **Note:** Currently this project only support **single thread training on** **Windows** platform, which is very slow (There is something wrong with `multiprocessing` library on Windows). For higher speed, please use **Linux** platform for training.
+
