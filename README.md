@@ -10,3 +10,12 @@ This is the official implementation of paper:
 
 ## Installation
 
+1. Clone repository
+
+   ```shell
+   git clone https://github.com/hu-hy17/HOIC.git
+   ```
+
+2. Install physics simulator Mujoco210 (https://mujoco.org/)
+   - 
+

@@ -25,7 +25,7 @@ pyrender==0.1.45
 pyserial==3.5
 PyYAML==6.0.1
 qpsolvers==4.1.1
-scipy
+scipy==1.10.1
 setuptools==68.0.0
 scikit-image
 tqdm==4.65.0
@@ -33,4 +33,4 @@ transforms3d==0.4.1
 trimesh==4.0.0
 vtk==9.2.6
 wandb==0.15.8
-patchelf
+loguru==0.7.2
