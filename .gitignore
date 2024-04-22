@@ -152,6 +152,7 @@ cython_debug/
 /.idea/
 /sample_data/*
 /results/*
+/mujoco210/
 
 *.zip
 *.rar

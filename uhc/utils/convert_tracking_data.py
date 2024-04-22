@@ -44,7 +44,7 @@ reverse_dof_idx = [
 
 ref_obj_fn = None
 debug = False
-data_root = 'sample_data/SingleDepth/Box/'
+data_root = 'sample_data/SingleDepth/Banana/'
 is_show_motion = False
 is_dump_motion = True
 test_only = True
