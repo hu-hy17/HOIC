@@ -1,0 +1,339 @@
+<!-- See LICENSE.md for legal notices. LICENSE.md must be kept together with this file. -->
+<mujoco>
+    <body name="handworld" pos="0 0 0" euler="0 0 0">
+        <body name="palm" pos="0 0 0" euler="0 0 0" childclass="robot0:asset_class">
+            <joint name="robot0:slide0" type="slide" pos="0 0 0" axis="1 0 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot0:slide1" type="slide" pos="0 0 0" axis="0 1 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot0:slide2" type="slide" pos="0 0 0" axis="0 0 1" range="0.2 2.0" armature="0.005"></joint>
+            <joint name="robot0:WRJ0" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <joint name="robot0:WRJ1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.57 1.57" armature="0.005" user="1123"></joint>
+            <joint name="robot0:WRJ2" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <inertial pos="-0.03 0 0" euler="0 0 0.2" mass="0.3" diaginertia="0.001 0.001 0.001"/>
+            <geom class="robot0:D_Vizual" name="robot0:V_palm" mesh="palm"></geom>
+            <geom class="robot0:DC_Hand" name="robot0:C_palm0" type="box" pos="-0.03 0 0" size="0.0439 0.0135 0.035" euler="0 0 0.2"></geom>
+            <geom class="robot0:DC_Hand" name="robot0:C_palm1" type="capsule" euler="-2.61505 0.70030 -1.87000" pos="-0.01187 -0.00708 0.01218" size="0.015 0.01842"></geom>
+            <body name="link_ff_pm" pos="-0.0880972 -0.00520036 0.020686">
+                <joint name="robot0:FFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot0:FFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01633945  0.00200468  0.0011085" euler="2.0759187  1.43150624 1.94972864" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <geom class="robot0:D_Vizual" name="robot0:V_FF3" mesh="ffprox"></geom>
+                <geom class="robot0:DC_Hand" name="robot0:C_FF3" type="capsule" pos="-0.01633945  0.00200468  0.0011085" size="0.009 0.0165" euler="2.0759187  1.43150624 1.94972864"></geom>
+                <body name="link_ff_md" pos="-0.0326789 0.00400935 0.00221706">
+                    <inertial pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" euler="-1.48313839 1.51203433 -1.42475203" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot0:FFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot0:D_Vizual" name="robot0:V_FF2" mesh="ffmiddle"></geom>
+                    <geom class="robot0:DC_Hand" name="robot0:C_FF2" type="capsule" pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" size="0.0075 0.0111" euler="-1.48313839 1.51203433 -1.42475203"></geom>
+                    <body name="link_ff_dd" pos="-0.0221559 -0.00129842 -0.000114109">
+                        <inertial pos="-0.01163138  0.00035898  0.00202463" euler="2.96610898 1.39582282 2.93259132" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot0:FFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot0:D_Vizual" name="robot0:V_FF1" mesh="ffdist"></geom>
+                        <geom class="robot0:DC_Hand" name="robot0:C_FF1" type="capsule" pos="-0.01163138  0.00035898  0.00202463" size="0.0075 0.0075" euler="2.96610898 1.39582282 2.93259132"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_mf_pm" pos="-0.0946604 -0.00147896 -0.00335754">
+                <inertial pos="-0.01559134  0.00093066 -0.00279725" euler="0.32118629 1.38392244 0.26686409" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot0:MFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot0:MFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot0:D_Vizual" name="robot0:V_MF3" mesh="mfprox"></geom>
+                <geom class="robot0:DC_Hand" name="robot0:C_MF3" type="capsule" pos="-0.01559134  0.00093066 -0.00279725" size="0.009 0.0158675" euler="0.32118629 1.38392244 0.26686409"></geom>
+                <body name="link_mf_md" pos="-0.0311827 0.00186133 -0.00559451">
+                    <inertial pos="-0.01145232 -0.00062605 -0.001972263" euler="-0.30736925 1.39204219 -0.25742004" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot0:MFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot0:D_Vizual" name="robot0:V_MF2" mesh="mfmiddle"></geom>
+                    <geom class="robot0:DC_Hand" name="robot0:C_MF2" type="capsule" pos="-0.01145232 -0.00062605 -0.001972263" size="0.0075 0.01163" euler="-0.30736925 1.39204219 -0.25742004"></geom>
+                    <body name="link_mf_dd" pos="-0.0229046 -0.0012521 -0.00394452">
+                        <inertial pos="-0.01551503 -0.00070755 -0.00318577" euler="-0.21855015 1.36348088  -0.17760409" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot0:MFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot0:D_Vizual" name="robot0:V_MF1" mesh="mfdist"></geom>
+                        <geom class="robot0:DC_Hand" name="robot0:C_MF1" type="capsule" pos="-0.01551503 -0.00070755 -0.00318577" size="0.0075 0.005" euler="-0.21855015 1.36348088  -0.17760409"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_lf_pm" pos="-0.0687869 -0.00994033 -0.0432093">
+                <joint name="robot0:LFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" euler="0.00494643 0.93721839 0.00250398" mass="0.07" diaginertia="0.0005 0.0005 0.0005"/>
+                <joint name="robot0:LFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot0:D_Vizual" name="robot0:V_LF3" mesh="lfprox"></geom>
+                <geom class="robot0:DC_Hand" name="robot0:C_LF3" type="capsule" pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" size="0.009 0.010555964" euler="0.00494643 0.93721839 0.00250398"></geom>
+                <body name="link_lf_md" pos="-0.0170144 6.18249e-05 -0.0124988">
+                    <inertial pos="-0.00793345 -0.00034558 -0.00516596" euler="-0.06679566 0.99258405 -0.0361792" mass="0.06" diaginertia="0.0005 0.0005 0.0005"/>
+                    <joint name="robot0:LFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot0:D_Vizual" name="robot0:V_LF2" mesh="lfmiddle"></geom>
+                    <geom class="robot0:DC_Hand" name="robot0:C_LF2" type="capsule" pos="-0.00793345 -0.00034558 -0.00516596" size="0.0075 0.009473446" euler="-0.06679566 0.99258405 -0.0361792"></geom>
+                    <body name="link_lf_dd" pos="-0.0158669 -0.000691155 -0.0103319">
+                        <inertial pos="-0.00977975  0.00129545 -0.00574058" euler="0.22194785 1.02909336 0.12582808" mass="0.05" diaginertia="0.0005 0.0005 0.0005"/>
+                        <joint name="robot0:LFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot0:D_Vizual" name="robot0:V_LF1" mesh="lfdist"></geom>
+                        <geom class="robot0:DC_Hand" name="robot0:C_LF1" type="capsule" pos="-0.00977975  0.00129545 -0.00574058" size="0.0065 0.0035" euler="0.22194785 1.02909336 0.12582808"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_rf_pm" pos="-0.0817355 -0.00395742 -0.0266732">
+                <joint name="robot0:RFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01415714  0.0010335  -0.00254927" euler="0.38516311 1.37888284 0.31878467" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot0:RFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot0:D_Vizual" name="robot0:V_RF3" mesh="rfprox"></geom>
+                <geom class="robot0:DC_Hand" name="robot0:C_RF3" type="capsule" pos="-0.01415714  0.0010335  -0.00254927" size="0.009 0.014421906" euler="0.38516311 1.37888284 0.31878467"></geom>
+                <body name="link_rf_md" pos="-0.0283143 0.00206701 -0.00509854">
+                    <inertial pos="-0.01176025 -0.00084406 -0.00381691" euler="-0.21763357 1.24988512 -0.15729772" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot0:RFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot0:D_Vizual" name="robot0:V_RF2" mesh="rfmiddle"></geom>
+                    <geom class="robot0:DC_Hand" name="robot0:C_RF2" type="capsule" pos="-0.01176025 -0.00084406 -0.00381691" size="0.0075 0.012392933" euler="-0.21763357 1.24988512 -0.15729772"></geom>
+                    <body name="link_rf_dd" pos="-0.0235205 -0.00168811 -0.00763382">
+                        <inertial pos="-0.01460212  0.00187106 -0.00404494" euler="0.43325752 1.27456581 0.32302802" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot0:RFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot0:D_Vizual" name="robot0:V_RF1" mesh="rfdist"></geom>
+                        <geom class="robot0:DC_Hand" name="robot0:C_RF1" type="capsule" pos="-0.01460212  0.00187106 -0.00404494" size="0.0075 0.005" euler="0.43325752 1.27456581 0.32302802"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_th_pm" pos="-0.0240897 -0.0155223 0.0258128">
+                <joint name="robot0:THJ3x" type="hinge" pos="0 0 0" axis="1 0 0" range="0 1.57" armature="0.005" user="1123"></joint>
+                <joint name="robot0:THJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.00981662  0.00044564  0.01184977" euler="3.10400265 0.69148607 3.03731965" mass="0.016" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot0:THJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.25 0.25" armature="0.005" user="1123"></joint>
+                <geom class="robot0:D_Vizual" name="robot0:V_TH3" mesh="thprox"></geom>
+                <geom class="robot0:DC_Hand" name="robot0:C_TH3" type="capsule" pos="-0.00981662  0.00044564  0.01184977" size="0.01 0.015394214" euler="3.10400265 0.69148607 3.03731965"></geom>
+                <body name="link_th_md" pos="-0.0196332 0.000891286 0.0236995">
+                    <joint name="robot0:THJ2x" type="hinge" pos="0 0 0" axis="1 0 0" range="-1 1" armature="0.005" user="1123"></joint>
+                    <joint name="robot0:THJ2y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <inertial pos="-0.01110887 -0.00271648  0.00726206" euler="-2.78364168 0.96144328  -2.47379542" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot0:THJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <geom class="robot0:D_Vizual" name="robot0:V_TH2" mesh="thmiddle"></geom>
+                    <geom class="robot0:DC_Hand" name="robot0:C_TH2" type="capsule" pos="-0.01110887 -0.00271648  0.00726206" size="0.01 0.013547092" euler="-2.78364168 0.96144328  -2.47379542"></geom>
+                    <body name="link_th_dd" pos="-0.0222177 -0.00543297 0.0145241">
+                        <joint name="robot0:THJ1y" type="hinge" pos="0 0 0" axis="0 1 0" range="-1 1" armature="0.005" user="1123"></joint>
+                        <inertial pos="-0.01577465 -0.00326327  0.01024323" euler="-2.83317999 0.97259243  -2.56963586" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <geom class="robot0:D_Vizual" name="robot0:V_TH1" mesh="thdist"></geom>
+                        <geom class="robot0:DC_Hand" name="robot0:C_TH1" type="capsule" pos="-0.01577465 -0.00326327  0.01024323" size="0.01 0.01" euler="-2.83317999 0.97259243  -2.56963586"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+    <body name="handworld1" pos="0 0 0" euler="0 0 0">
+        <body name="palm1" pos="0 0 0" euler="0 0 0" childclass="robot1:asset_class">
+            <joint name="robot1:slide0" type="slide" pos="0 0 0" axis="1 0 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot1:slide1" type="slide" pos="0 0 0" axis="0 1 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot1:slide2" type="slide" pos="0 0 0" axis="0 0 1" range="0.2 2.0" armature="0.005"></joint>
+            <joint name="robot1:WRJ0" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <joint name="robot1:WRJ1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.57 1.57" armature="0.005" user="1123"></joint>
+            <joint name="robot1:WRJ2" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <inertial pos="-0.03 0 0" euler="0 0 0.2" mass="0.3" diaginertia="0.001 0.001 0.001"/>
+            <geom class="robot1:D_Vizual" name="robot1:V_palm" mesh="palm"></geom>
+            <geom class="robot1:DC_Hand" name="robot1:C_palm0" type="box" pos="-0.03 0 0" size="0.0439 0.0135 0.035" euler="0 0 0.2"></geom>
+            <geom class="robot1:DC_Hand" name="robot1:C_palm1" type="capsule" euler="-2.61505 0.70030 -1.87000" pos="-0.01187 -0.00708 0.01218" size="0.015 0.01842"></geom>
+            <body name="link_ff_pm1" pos="-0.0880972 -0.00520036 0.020686">
+                <joint name="robot1:FFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot1:FFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01633945  0.00200468  0.0011085" euler="2.0759187  1.43150624 1.94972864" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <geom class="robot1:D_Vizual" name="robot1:V_FF3" mesh="ffprox"></geom>
+                <geom class="robot1:DC_Hand" name="robot1:C_FF3" type="capsule" pos="-0.01633945  0.00200468  0.0011085" size="0.009 0.0165" euler="2.0759187  1.43150624 1.94972864"></geom>
+                <body name="link_ff_md1" pos="-0.0326789 0.00400935 0.00221706">
+                    <inertial pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" euler="-1.48313839 1.51203433 -1.42475203" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot1:FFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot1:D_Vizual" name="robot1:V_FF2" mesh="ffmiddle"></geom>
+                    <geom class="robot1:DC_Hand" name="robot1:C_FF2" type="capsule" pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" size="0.0075 0.0111" euler="-1.48313839 1.51203433 -1.42475203"></geom>
+                    <body name="link_ff_dd1" pos="-0.0221559 -0.00129842 -0.000114109">
+                        <inertial pos="-0.01163138  0.00035898  0.00202463" euler="2.96610898 1.39582282 2.93259132" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot1:FFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot1:D_Vizual" name="robot1:V_FF1" mesh="ffdist"></geom>
+                        <geom class="robot1:DC_Hand" name="robot1:C_FF1" type="capsule" pos="-0.01163138  0.00035898  0.00202463" size="0.0075 0.0075" euler="2.96610898 1.39582282 2.93259132"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_mf_pm1" pos="-0.0946604 -0.00147896 -0.00335754">
+                <inertial pos="-0.01559134  0.00093066 -0.00279725" euler="0.32118629 1.38392244 0.26686409" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot1:MFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot1:MFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot1:D_Vizual" name="robot1:V_MF3" mesh="mfprox"></geom>
+                <geom class="robot1:DC_Hand" name="robot1:C_MF3" type="capsule" pos="-0.01559134  0.00093066 -0.00279725" size="0.009 0.0158675" euler="0.32118629 1.38392244 0.26686409"></geom>
+                <body name="link_mf_md1" pos="-0.0311827 0.00186133 -0.00559451">
+                    <inertial pos="-0.01145232 -0.00062605 -0.001972263" euler="-0.30736925 1.39204219 -0.25742004" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot1:MFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot1:D_Vizual" name="robot1:V_MF2" mesh="mfmiddle"></geom>
+                    <geom class="robot1:DC_Hand" name="robot1:C_MF2" type="capsule" pos="-0.01145232 -0.00062605 -0.001972263" size="0.0075 0.01163" euler="-0.30736925 1.39204219 -0.25742004"></geom>
+                    <body name="link_mf_dd1" pos="-0.0229046 -0.0012521 -0.00394452">
+                        <inertial pos="-0.01551503 -0.00070755 -0.00318577" euler="-0.21855015 1.36348088  -0.17760409" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot1:MFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot1:D_Vizual" name="robot1:V_MF1" mesh="mfdist"></geom>
+                        <geom class="robot1:DC_Hand" name="robot1:C_MF1" type="capsule" pos="-0.01551503 -0.00070755 -0.00318577" size="0.0075 0.005" euler="-0.21855015 1.36348088  -0.17760409"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_lf_pm1" pos="-0.0687869 -0.00994033 -0.0432093">
+                <joint name="robot1:LFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" euler="0.00494643 0.93721839 0.00250398" mass="0.07" diaginertia="0.0005 0.0005 0.0005"/>
+                <joint name="robot1:LFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot1:D_Vizual" name="robot1:V_LF3" mesh="lfprox"></geom>
+                <geom class="robot1:DC_Hand" name="robot1:C_LF3" type="capsule" pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" size="0.009 0.010555964" euler="0.00494643 0.93721839 0.00250398"></geom>
+                <body name="link_lf_md1" pos="-0.0170144 6.18249e-05 -0.0124988">
+                    <inertial pos="-0.00793345 -0.00034558 -0.00516596" euler="-0.06679566 0.99258405 -0.0361792" mass="0.06" diaginertia="0.0005 0.0005 0.0005"/>
+                    <joint name="robot1:LFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot1:D_Vizual" name="robot1:V_LF2" mesh="lfmiddle"></geom>
+                    <geom class="robot1:DC_Hand" name="robot1:C_LF2" type="capsule" pos="-0.00793345 -0.00034558 -0.00516596" size="0.0075 0.009473446" euler="-0.06679566 0.99258405 -0.0361792"></geom>
+                    <body name="link_lf_dd1" pos="-0.0158669 -0.000691155 -0.0103319">
+                        <inertial pos="-0.00977975  0.00129545 -0.00574058" euler="0.22194785 1.02909336 0.12582808" mass="0.05" diaginertia="0.0005 0.0005 0.0005"/>
+                        <joint name="robot1:LFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot1:D_Vizual" name="robot1:V_LF1" mesh="lfdist"></geom>
+                        <geom class="robot1:DC_Hand" name="robot1:C_LF1" type="capsule" pos="-0.00977975  0.00129545 -0.00574058" size="0.0065 0.0035" euler="0.22194785 1.02909336 0.12582808"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_rf_pm1" pos="-0.0817355 -0.00395742 -0.0266732">
+                <joint name="robot1:RFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01415714  0.0010335  -0.00254927" euler="0.38516311 1.37888284 0.31878467" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot1:RFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot1:D_Vizual" name="robot1:V_RF3" mesh="rfprox"></geom>
+                <geom class="robot1:DC_Hand" name="robot1:C_RF3" type="capsule" pos="-0.01415714  0.0010335  -0.00254927" size="0.009 0.014421906" euler="0.38516311 1.37888284 0.31878467"></geom>
+                <body name="link_rf_md1" pos="-0.0283143 0.00206701 -0.00509854">
+                    <inertial pos="-0.01176025 -0.00084406 -0.00381691" euler="-0.21763357 1.24988512 -0.15729772" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot1:RFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot1:D_Vizual" name="robot1:V_RF2" mesh="rfmiddle"></geom>
+                    <geom class="robot1:DC_Hand" name="robot1:C_RF2" type="capsule" pos="-0.01176025 -0.00084406 -0.00381691" size="0.0075 0.012392933" euler="-0.21763357 1.24988512 -0.15729772"></geom>
+                    <body name="link_rf_dd1" pos="-0.0235205 -0.00168811 -0.00763382">
+                        <inertial pos="-0.01460212  0.00187106 -0.00404494" euler="0.43325752 1.27456581 0.32302802" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot1:RFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot1:D_Vizual" name="robot1:V_RF1" mesh="rfdist"></geom>
+                        <geom class="robot1:DC_Hand" name="robot1:C_RF1" type="capsule" pos="-0.01460212  0.00187106 -0.00404494" size="0.0075 0.005" euler="0.43325752 1.27456581 0.32302802"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_th_pm1" pos="-0.0240897 -0.0155223 0.0258128">
+                <joint name="robot1:THJ3x" type="hinge" pos="0 0 0" axis="1 0 0" range="0 1.57" armature="0.005" user="1123"></joint>
+                <joint name="robot1:THJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.00981662  0.00044564  0.01184977" euler="3.10400265 0.69148607 3.03731965" mass="0.016" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot1:THJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.25 0.25" armature="0.005" user="1123"></joint>
+                <geom class="robot1:D_Vizual" name="robot1:V_TH3" mesh="thprox"></geom>
+                <geom class="robot1:DC_Hand" name="robot1:C_TH3" type="capsule" pos="-0.00981662  0.00044564  0.01184977" size="0.01 0.015394214" euler="3.10400265 0.69148607 3.03731965"></geom>
+                <body name="link_th_md1" pos="-0.0196332 0.000891286 0.0236995">
+                    <joint name="robot1:THJ2x" type="hinge" pos="0 0 0" axis="1 0 0" range="-1 1" armature="0.005" user="1123"></joint>
+                    <joint name="robot1:THJ2y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <inertial pos="-0.01110887 -0.00271648  0.00726206" euler="-2.78364168 0.96144328  -2.47379542" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot1:THJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <geom class="robot1:D_Vizual" name="robot1:V_TH2" mesh="thmiddle"></geom>
+                    <geom class="robot1:DC_Hand" name="robot1:C_TH2" type="capsule" pos="-0.01110887 -0.00271648  0.00726206" size="0.01 0.013547092" euler="-2.78364168 0.96144328  -2.47379542"></geom>
+                    <body name="link_th_dd1" pos="-0.0222177 -0.00543297 0.0145241">
+                        <joint name="robot1:THJ1y" type="hinge" pos="0 0 0" axis="0 1 0" range="-1 1" armature="0.005" user="1123"></joint>
+                        <inertial pos="-0.01577465 -0.00326327  0.01024323" euler="-2.83317999 0.97259243  -2.56963586" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <geom class="robot1:D_Vizual" name="robot1:V_TH1" mesh="thdist"></geom>
+                        <geom class="robot1:DC_Hand" name="robot1:C_TH1" type="capsule" pos="-0.01577465 -0.00326327  0.01024323" size="0.01 0.01" euler="-2.83317999 0.97259243  -2.56963586"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+    <body name="handworld2" pos="0 0 0" euler="0 0 0">
+        <body name="palm2" pos="0 0 0" euler="0 0 0" childclass="robot2:asset_class">
+            <joint name="robot2:slide0" type="slide" pos="0 0 0" axis="1 0 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot2:slide1" type="slide" pos="0 0 0" axis="0 1 0" range="-2.0 2.0" armature="0.005"></joint>
+            <joint name="robot2:slide2" type="slide" pos="0 0 0" axis="0 0 1" range="0.2 2.0" armature="0.005"></joint>
+            <joint name="robot2:WRJ0" type="hinge" pos="0 0 0" axis="1 0 0" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <joint name="robot2:WRJ1" type="hinge" pos="0 0 0" axis="0 1 0" range="-1.57 1.57" armature="0.005" user="1123"></joint>
+            <joint name="robot2:WRJ2" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.14 3.14" armature="0.005" user="1123"></joint>
+            <inertial pos="-0.03 0 0" euler="0 0 0.2" mass="0.3" diaginertia="0.001 0.001 0.001"/>
+            <geom class="robot2:D_Vizual" name="robot2:V_palm" mesh="palm"></geom>
+            <geom class="robot2:DC_Hand" name="robot2:C_palm0" type="box" pos="-0.03 0 0" size="0.0439 0.0135 0.035" euler="0 0 0.2"></geom>
+            <geom class="robot2:DC_Hand" name="robot2:C_palm1" type="capsule" euler="-2.61505 0.70030 -1.87000" pos="-0.01187 -0.00708 0.01218" size="0.015 0.01842"></geom>
+            <body name="link_ff_pm2" pos="-0.0880972 -0.00520036 0.020686">
+                <joint name="robot2:FFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot2:FFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01633945  0.00200468  0.0011085" euler="2.0759187  1.43150624 1.94972864" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <geom class="robot2:D_Vizual" name="robot2:V_FF3" mesh="ffprox"></geom>
+                <geom class="robot2:DC_Hand" name="robot2:C_FF3" type="capsule" pos="-0.01633945  0.00200468  0.0011085" size="0.009 0.0165" euler="2.0759187  1.43150624 1.94972864"></geom>
+                <body name="link_ff_md2" pos="-0.0326789 0.00400935 0.00221706">
+                    <inertial pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" euler="-1.48313839 1.51203433 -1.42475203" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot2:FFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot2:D_Vizual" name="robot2:V_FF2" mesh="ffmiddle"></geom>
+                    <geom class="robot2:DC_Hand" name="robot2:C_FF2" type="capsule" pos="-1.10779554e-02 -6.49210764e-04 -5.70546836e-05" size="0.0075 0.0111" euler="-1.48313839 1.51203433 -1.42475203"></geom>
+                    <body name="link_ff_dd2" pos="-0.0221559 -0.00129842 -0.000114109">
+                        <inertial pos="-0.01163138  0.00035898  0.00202463" euler="2.96610898 1.39582282 2.93259132" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot2:FFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot2:D_Vizual" name="robot2:V_FF1" mesh="ffdist"></geom>
+                        <geom class="robot2:DC_Hand" name="robot2:C_FF1" type="capsule" pos="-0.01163138  0.00035898  0.00202463" size="0.0075 0.0075" euler="2.96610898 1.39582282 2.93259132"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_mf_pm2" pos="-0.0946604 -0.00147896 -0.00335754">
+                <inertial pos="-0.01559134  0.00093066 -0.00279725" euler="0.32118629 1.38392244 0.26686409" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot2:MFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <joint name="robot2:MFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot2:D_Vizual" name="robot2:V_MF3" mesh="mfprox"></geom>
+                <geom class="robot2:DC_Hand" name="robot2:C_MF3" type="capsule" pos="-0.01559134  0.00093066 -0.00279725" size="0.009 0.0158675" euler="0.32118629 1.38392244 0.26686409"></geom>
+                <body name="link_mf_md2" pos="-0.0311827 0.00186133 -0.00559451">
+                    <inertial pos="-0.01145232 -0.00062605 -0.001972263" euler="-0.30736925 1.39204219 -0.25742004" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot2:MFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot2:D_Vizual" name="robot2:V_MF2" mesh="mfmiddle"></geom>
+                    <geom class="robot2:DC_Hand" name="robot2:C_MF2" type="capsule" pos="-0.01145232 -0.00062605 -0.001972263" size="0.0075 0.01163" euler="-0.30736925 1.39204219 -0.25742004"></geom>
+                    <body name="link_mf_dd2" pos="-0.0229046 -0.0012521 -0.00394452">
+                        <inertial pos="-0.01551503 -0.00070755 -0.00318577" euler="-0.21855015 1.36348088  -0.17760409" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot2:MFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot2:D_Vizual" name="robot2:V_MF1" mesh="mfdist"></geom>
+                        <geom class="robot2:DC_Hand" name="robot2:C_MF1" type="capsule" pos="-0.01551503 -0.00070755 -0.00318577" size="0.0075 0.005" euler="-0.21855015 1.36348088  -0.17760409"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_lf_pm2" pos="-0.0687869 -0.00994033 -0.0432093">
+                <joint name="robot2:LFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" euler="0.00494643 0.93721839 0.00250398" mass="0.07" diaginertia="0.0005 0.0005 0.0005"/>
+                <joint name="robot2:LFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot2:D_Vizual" name="robot2:V_LF3" mesh="lfprox"></geom>
+                <geom class="robot2:DC_Hand" name="robot2:C_LF3" type="capsule" pos="-8.50720331e-03  3.09124589e-05 -6.24939241e-03" size="0.009 0.010555964" euler="0.00494643 0.93721839 0.00250398"></geom>
+                <body name="link_lf_md2" pos="-0.0170144 6.18249e-05 -0.0124988">
+                    <inertial pos="-0.00793345 -0.00034558 -0.00516596" euler="-0.06679566 0.99258405 -0.0361792" mass="0.06" diaginertia="0.0005 0.0005 0.0005"/>
+                    <joint name="robot2:LFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot2:D_Vizual" name="robot2:V_LF2" mesh="lfmiddle"></geom>
+                    <geom class="robot2:DC_Hand" name="robot2:C_LF2" type="capsule" pos="-0.00793345 -0.00034558 -0.00516596" size="0.0075 0.009473446" euler="-0.06679566 0.99258405 -0.0361792"></geom>
+                    <body name="link_lf_dd2" pos="-0.0158669 -0.000691155 -0.0103319">
+                        <inertial pos="-0.00977975  0.00129545 -0.00574058" euler="0.22194785 1.02909336 0.12582808" mass="0.05" diaginertia="0.0005 0.0005 0.0005"/>
+                        <joint name="robot2:LFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot2:D_Vizual" name="robot2:V_LF1" mesh="lfdist"></geom>
+                        <geom class="robot2:DC_Hand" name="robot2:C_LF1" type="capsule" pos="-0.00977975  0.00129545 -0.00574058" size="0.0065 0.0035" euler="0.22194785 1.02909336 0.12582808"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_rf_pm2" pos="-0.0817355 -0.00395742 -0.0266732">
+                <joint name="robot2:RFJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.01415714  0.0010335  -0.00254927" euler="0.38516311 1.37888284 0.31878467" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot2:RFJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                <geom class="robot2:D_Vizual" name="robot2:V_RF3" mesh="rfprox"></geom>
+                <geom class="robot2:DC_Hand" name="robot2:C_RF3" type="capsule" pos="-0.01415714  0.0010335  -0.00254927" size="0.009 0.014421906" euler="0.38516311 1.37888284 0.31878467"></geom>
+                <body name="link_rf_md2" pos="-0.0283143 0.00206701 -0.00509854">
+                    <inertial pos="-0.01176025 -0.00084406 -0.00381691" euler="-0.21763357 1.24988512 -0.15729772" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot2:RFJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                    <geom class="robot2:D_Vizual" name="robot2:V_RF2" mesh="rfmiddle"></geom>
+                    <geom class="robot2:DC_Hand" name="robot2:C_RF2" type="capsule" pos="-0.01176025 -0.00084406 -0.00381691" size="0.0075 0.012392933" euler="-0.21763357 1.24988512 -0.15729772"></geom>
+                    <body name="link_rf_dd2" pos="-0.0235205 -0.00168811 -0.00763382">
+                        <inertial pos="-0.01460212  0.00187106 -0.00404494" euler="0.43325752 1.27456581 0.32302802" mass="0.01" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <joint name="robot2:RFJ1z" type="hinge" pos="0 0 0" axis="0 0 1" range="0 1.57" armature="0.005" user="1123"></joint>
+                        <geom class="robot2:D_Vizual" name="robot2:V_RF1" mesh="rfdist"></geom>
+                        <geom class="robot2:DC_Hand" name="robot2:C_RF1" type="capsule" pos="-0.01460212  0.00187106 -0.00404494" size="0.0075 0.005" euler="0.43325752 1.27456581 0.32302802"></geom>
+                    </body>
+                </body>
+            </body>
+            <body name="link_th_pm2" pos="-0.0240897 -0.0155223 0.0258128">
+                <joint name="robot2:THJ3x" type="hinge" pos="0 0 0" axis="1 0 0" range="0 1.57" armature="0.005" user="1123"></joint>
+                <joint name="robot2:THJ3y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.8 0.8" armature="0.005" user="1123"></joint>
+                <inertial pos="-0.00981662  0.00044564  0.01184977" euler="3.10400265 0.69148607 3.03731965" mass="0.016" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                <joint name="robot2:THJ3z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.25 0.25" armature="0.005" user="1123"></joint>
+                <geom class="robot2:D_Vizual" name="robot2:V_TH3" mesh="thprox"></geom>
+                <geom class="robot2:DC_Hand" name="robot2:C_TH3" type="capsule" pos="-0.00981662  0.00044564  0.01184977" size="0.01 0.015394214" euler="3.10400265 0.69148607 3.03731965"></geom>
+                <body name="link_th_md2" pos="-0.0196332 0.000891286 0.0236995">
+                    <joint name="robot2:THJ2x" type="hinge" pos="0 0 0" axis="1 0 0" range="-1 1" armature="0.005" user="1123"></joint>
+                    <joint name="robot2:THJ2y" type="hinge" pos="0 0 0" axis="0 1 0" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <inertial pos="-0.01110887 -0.00271648  0.00726206" euler="-2.78364168 0.96144328  -2.47379542" mass="0.014" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                    <joint name="robot2:THJ2z" type="hinge" pos="0 0 0" axis="0 0 1" range="-0.5 0.5" armature="0.005" user="1123"></joint>
+                    <geom class="robot2:D_Vizual" name="robot2:V_TH2" mesh="thmiddle"></geom>
+                    <geom class="robot2:DC_Hand" name="robot2:C_TH2" type="capsule" pos="-0.01110887 -0.00271648  0.00726206" size="0.01 0.013547092" euler="-2.78364168 0.96144328  -2.47379542"></geom>
+                    <body name="link_th_dd2" pos="-0.0222177 -0.00543297 0.0145241">
+                        <joint name="robot2:THJ1y" type="hinge" pos="0 0 0" axis="0 1 0" range="-1 1" armature="0.005" user="1123"></joint>
+                        <inertial pos="-0.01577465 -0.00326327  0.01024323" euler="-2.83317999 0.97259243  -2.56963586" mass="0.012" diaginertia="1e-05 1e-05 1e-05"></inertial>
+                        <geom class="robot2:D_Vizual" name="robot2:V_TH1" mesh="thdist"></geom>
+                        <geom class="robot2:DC_Hand" name="robot2:C_TH1" type="capsule" pos="-0.01577465 -0.00326327  0.01024323" size="0.01 0.01" euler="-2.83317999 0.97259243  -2.56963586"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+</mujoco>

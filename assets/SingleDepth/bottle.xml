@@ -1,0 +1,19 @@
+<mujoco>
+    <asset>
+        <mesh name="C_bottle1" file="Collision/bottle_top.stl"/>
+        <mesh name="C_bottle2" file="Collision/bottle_bot.stl"/>
+        <mesh name="V_bottle" file="Visual/bottle.stl"/>
+        <material name="object" specular="0.75" shininess="0.1" reflectance="0.3" rgba="1.0 0.0 0.0 1.0"/>
+        <material name="object_ref" specular="0.75" shininess="0.1" reflectance="0.3" rgba="1.0 0.0 0.0 1.0"/>
+    </asset>
+    <worldbody>
+        <body name="bottle" pos="0 0 0" quat="1 0 0 0">
+            <geom name = "C_bottle1" condim="3" density="1000" friction="1 0.5 0.1" group="4" conaffinity="1" contype="1"
+                  solref="-6000 -300" solimp="1.0 0.95 0.001 0.5 2" mesh="C_bottle1" type="mesh" material="object"/>
+            <geom name = "C_bottle2" condim="3" density="1000" friction="1 0.5 0.1" group="4" conaffinity="1" contype="1"
+                  solref="-6000 -300" solimp="1.0 0.95 0.001 0.5 2" mesh="C_bottle2" type="mesh" material="object"/>
+            <geom name = "V_bottle" conaffinity="0" contype="0" group="1" mesh="V_bottle" type="mesh" material="object"/>
+            <joint armature="0.001" damping="0" frictionloss="0.001" limited="false" type="free" />
+        </body>
+    </worldbody>
+</mujoco>

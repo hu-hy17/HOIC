@@ -1,0 +1,24 @@
+<mujoco>
+    <asset>
+        <mesh name="C_banana1" file="Collision/banana21.stl" scale="0.95 0.95 1.0"/>
+        <mesh name="C_banana2" file="Collision/banana22.stl" scale="0.95 0.95 1.0"/>
+        <mesh name="C_banana3" file="Collision/banana23.stl" scale="0.95 0.95 1.0"/>
+        <mesh name="V_banana" file="Visual/banana.stl"/>
+        <material name="object" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>
+        <material name="object_ref" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>
+<!--        <material name="object" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>-->
+<!--        <material name="object_ref" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>-->
+    </asset>
+    <worldbody>
+        <body name="banana" pos="0 0 0" quat="1 0 0 0">
+            <geom name = "C_banana1" condim="3" density="125" friction="1 0.5 0.1" group="4" conaffinity="1" contype="1"
+                  solref="-6000 -300" solimp="1.0 0.95 0.001 0.5 2" mesh="C_banana1" type="mesh" material="object"/>
+            <geom name = "C_banana2" condim="3" density="125" friction="1 0.5 0.1" group="4" conaffinity="1" contype="1"
+                  solref="-6000 -300" solimp="1.0 0.95 0.001 0.5 2" mesh="C_banana2" type="mesh" material="object"/>
+            <geom name = "C_banana3" condim="3" density="125" friction="1 0.5 0.1" group="4" conaffinity="1" contype="1"
+                  solref="-6000 -300" solimp="1.0 0.95 0.001 0.5 2" mesh="C_banana3" type="mesh" material="object"/>
+            <geom name = "V_banana" density="0" conaffinity="0" contype="0" group="1" mesh="V_banana" type="mesh" material="object"/>
+            <joint armature="0.001" damping="0" frictionloss="0.001" limited="false" type="free" />
+        </body>
+    </worldbody>
+</mujoco>

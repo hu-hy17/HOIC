@@ -1,0 +1,85 @@
+<!-- See LICENSE.md for legal notices. LICENSE.md must be kept together with this file. -->
+<mujoco>
+    <size njmax="500" nconmax="100" nuser_jnt="1" nuser_site="1" nuser_tendon="1" nuser_sensor="1" nuser_actuator="16" nstack="600000"></size>
+
+    <visual>
+        <map fogstart="3" fogend="5" force="0.1"></map>
+        <quality shadowsize="4096"></quality>
+    </visual>
+
+    <default>
+        <default class="robot0:asset_class">
+            <geom friction="1 0.005 0.001" condim="3" margin="0.0005" contype="1" conaffinity="1"></geom>
+            <joint limited="true" damping="0.1" armature="0.001" margin="0.01" frictionloss="0.001"></joint>
+            <site size="0.005" rgba="0.4 0.9 0.4 1"></site>
+            <general ctrllimited="true" forcelimited="true"></general>
+        </default>
+        <default class="robot0:D_Touch">
+            <site type="box" size="0.009 0.004 0.013" pos="0 -0.004 0.018" rgba="0.8 0.8 0.8 0.15" group="4"></site>
+        </default>
+        <default class="robot0:DC_Hand">
+            <geom material="robot0:MatColl" contype="1" conaffinity="0" group="4"></geom>
+        </default>
+        <default class="robot0:D_Vizual">
+            <geom material="robot0:MatViz" contype="0" conaffinity="0" group="1" type="mesh"></geom>
+        </default>
+        <default class="robot0:free">
+            <joint type="free" damping="0" armature="0" limited="false"></joint>
+        </default>
+    </default>
+
+    <contact>
+        <pair geom1="robot0:C_FF1" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_FF2" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_FF3" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_MF3" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_MF1" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_RF1" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_LF1" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_palm0" geom2="robot0:C_TH1" condim="1"></pair>
+        <pair geom1="robot0:C_MF1" geom2="robot0:C_FF1" condim="1"></pair>
+        <pair geom1="robot0:C_RF1" geom2="robot0:C_MF1" condim="1"></pair>
+        <pair geom1="robot0:C_LF1" geom2="robot0:C_RF1" condim="1"></pair>
+        <pair geom1="robot0:C_MF3" geom2="robot0:C_FF3" condim="1"></pair>
+        <pair geom1="robot0:C_RF3" geom2="robot0:C_MF3" condim="1"></pair>
+        <pair geom1="robot0:C_LF3" geom2="robot0:C_RF3" condim="1"></pair>
+        <pair geom1="robot0:C_LF1" geom2="robot0:C_RF1" condim="1"></pair>
+        <pair geom1="robot0:C_LF1" geom2="robot0:C_MF1" condim="1"></pair>
+        <pair geom1="robot0:C_LF1" geom2="robot0:C_RF2" condim="1"></pair>
+        <pair geom1="robot0:C_LF2" geom2="robot0:C_RF1" condim="1"></pair>
+        <pair geom1="robot0:C_LF2" geom2="robot0:C_RF2" condim="1"></pair>
+    </contact>
+
+    <actuator>
+        <motor gear="1" name="robot0:A_slide0" joint="robot0:slide0"></motor>
+        <motor gear="1" name="robot0:A_slide1" joint="robot0:slide1"></motor>
+        <motor gear="1" name="robot0:A_slide2" joint="robot0:slide2"></motor>
+        <motor gear="1" name="robot0:A_WRJ0" user="2036" joint="robot0:WRJ0"></motor>
+        <motor gear="1" name="robot0:A_WRJ1" user="2038" joint="robot0:WRJ1"></motor>
+        <motor gear="1" name="robot0:A_WRJ2" user="1984" joint="robot0:WRJ2"></motor>
+        <motor gear="1" name="robot0:A_FFJ3y" user="2004" joint="robot0:FFJ3y"></motor>
+        <motor gear="1" name="robot0:A_FFJ3z" user="2004" joint="robot0:FFJ3z"></motor>
+        <motor gear="1" name="robot0:A_FFJ2z" user="2004" joint="robot0:FFJ2z"></motor>
+        <motor gear="1" name="robot0:A_FFJ1z" user="2004" joint="robot0:FFJ1z"></motor>
+        <motor gear="1" name="robot0:A_MFJ3y" user="2004" joint="robot0:MFJ3y"></motor>
+        <motor gear="1" name="robot0:A_MFJ3z" user="2004" joint="robot0:MFJ3z"></motor>
+        <motor gear="1" name="robot0:A_MFJ2z" user="2004" joint="robot0:MFJ2z"></motor>
+        <motor gear="1" name="robot0:A_MFJ1z" user="2004" joint="robot0:MFJ1z"></motor>
+        <motor gear="1" name="robot0:A_LFJ3y" user="2004" joint="robot0:LFJ3y"></motor>
+        <motor gear="1" name="robot0:A_LFJ3z" user="2004" joint="robot0:LFJ3z"></motor>
+        <motor gear="1" name="robot0:A_LFJ2z" user="2004" joint="robot0:LFJ2z"></motor>
+        <motor gear="1" name="robot0:A_LFJ1z" user="2004" joint="robot0:LFJ1z"></motor>
+        <motor gear="1" name="robot0:A_RFJ3y" user="2004" joint="robot0:RFJ3y"></motor>
+        <motor gear="1" name="robot0:A_RFJ3z" user="2004" joint="robot0:RFJ3z"></motor>
+        <motor gear="1" name="robot0:A_RFJ2z" user="2004" joint="robot0:RFJ2z"></motor>
+        <motor gear="1" name="robot0:A_RFJ1z" user="2004" joint="robot0:RFJ1z"></motor>
+        <motor gear="1" name="robot0:A_THJ3x" user="2004" joint="robot0:THJ3x"></motor>
+        <motor gear="1" name="robot0:A_THJ3y" user="2004" joint="robot0:THJ3y"></motor>
+        <motor gear="1" name="robot0:A_THJ3z" user="2004" joint="robot0:THJ3z"></motor>
+        <motor gear="1" name="robot0:A_THJ2x" user="2004" joint="robot0:THJ2x"></motor>
+        <motor gear="1" name="robot0:A_THJ2y" user="2004" joint="robot0:THJ2y"></motor>
+        <motor gear="1" name="robot0:A_THJ2z" user="2004" joint="robot0:THJ2z"></motor>
+        <motor gear="1" name="robot0:A_THJ1y" user="2004" joint="robot0:THJ1y"></motor>
+
+    </actuator>
+</mujoco>

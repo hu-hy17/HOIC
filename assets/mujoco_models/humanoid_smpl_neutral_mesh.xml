@@ -1,0 +1,261 @@
+<mujoco model="humanoid">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.00222222"/>
+  <visual>
+    <quality shadowsize="2048"/>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1"/>
+  </visual>
+  <statistic extent="3" center="0 0 1"/>
+  <default class="main">
+    <joint limited="true" armature="0.01"/>
+    <geom contype="7" conaffinity="7" condim="1" margin="0.001" rgba="0.8 0.6 0.4 1"/>
+  </default>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.4 0.5 0.6" rgb2="0 0 0" width="100" height="600"/>
+    <texture type="cube" name="texgeom" builtin="flat" mark="cross" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" width="127" height="762"/>
+    <texture type="2d" name="texplane" builtin="checker" rgb1="0 0 0" rgb2="0.8 0.8 0.8" width="100" height="100"/>
+    <material name="MatPlane" texture="texplane" texrepeat="60 60" specular="1" shininess="1" reflectance="0.5"/>
+    <material name="geom" texture="texgeom" texuniform="true"/>
+    <mesh name="Pelvis" file="./geom/Pelvis.stl"/>
+    <mesh name="L_Hip" file="./geom/L_Hip.stl"/>
+    <mesh name="R_Hip" file="./geom/R_Hip.stl"/>
+    <mesh name="Torso" file="./geom/Torso.stl"/>
+    <mesh name="L_Knee" file="./geom/L_Knee.stl"/>
+    <mesh name="R_Knee" file="./geom/R_Knee.stl"/>
+    <mesh name="Spine" file="./geom/Spine.stl"/>
+    <mesh name="L_Ankle" file="./geom/L_Ankle.stl"/>
+    <mesh name="R_Ankle" file="./geom/R_Ankle.stl"/>
+    <mesh name="Chest" file="./geom/Chest.stl"/>
+    <mesh name="L_Toe" file="./geom/L_Toe.stl"/>
+    <mesh name="R_Toe" file="./geom/R_Toe.stl"/>
+    <mesh name="Neck" file="./geom/Neck.stl"/>
+    <mesh name="L_Thorax" file="./geom/L_Thorax.stl"/>
+    <mesh name="R_Thorax" file="./geom/R_Thorax.stl"/>
+    <mesh name="Head" file="./geom/Head.stl"/>
+    <mesh name="L_Shoulder" file="./geom/L_Shoulder.stl"/>
+    <mesh name="R_Shoulder" file="./geom/R_Shoulder.stl"/>
+    <mesh name="L_Elbow" file="./geom/L_Elbow.stl"/>
+    <mesh name="R_Elbow" file="./geom/R_Elbow.stl"/>
+    <mesh name="L_Wrist" file="./geom/L_Wrist.stl"/>
+    <mesh name="R_Wrist" file="./geom/R_Wrist.stl"/>
+    <mesh name="L_Hand" file="./geom/L_Hand.stl"/>
+    <mesh name="R_Hand" file="./geom/R_Hand.stl"/>
+  </asset>
+  <worldbody>
+    <geom name="floor" size="100 100 0.2" type="plane" conaffinity="1" condim="3" material="MatPlane" rgba="0.8 0.9 0.8 1"/>
+    <light pos="0 0 1.3" dir="0 0 -1" directional="true" cutoff="100" exponent="1" diffuse="1 1 1" specular="0.1 0.1 0.1"/>
+    <body name="Pelvis" pos="-0.0018 -0.2233 0.0282" gravcomp="0">
+      <joint name="Pelvis" limited="false" type="free" armature="0"/>
+      <geom pos="0.0018 0.2233 -0.0282" type="mesh" contype="1" conaffinity="1" mesh="Pelvis"/>
+      <body name="L_Hip" pos="0.0695 -0.0914 -0.0068" gravcomp="0">
+        <joint name="L_Hip_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+        <joint name="L_Hip_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+        <joint name="L_Hip_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+        <geom pos="-0.0677 0.3147 -0.0214" type="mesh" contype="1" conaffinity="1" mesh="L_Hip"/>
+        <body name="L_Knee" pos="0.0343 -0.3752 -0.0045" gravcomp="0">
+          <joint name="L_Knee_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+          <joint name="L_Knee_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+          <joint name="L_Knee_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+          <geom pos="-0.102 0.6899 -0.0169" type="mesh" contype="1" conaffinity="1" mesh="L_Knee"/>
+          <body name="L_Ankle" pos="-0.0136 -0.398 -0.0437" gravcomp="0">
+            <joint name="L_Ankle_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+            <joint name="L_Ankle_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+            <joint name="L_Ankle_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+            <geom pos="-0.0884 1.0879 0.0268" type="mesh" contype="1" conaffinity="1" mesh="L_Ankle"/>
+            <body name="L_Toe" pos="0.0264 -0.0558 0.1193" gravcomp="0">
+              <joint name="L_Toe_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+              <joint name="L_Toe_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+              <joint name="L_Toe_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+              <geom pos="-0.1148 1.1437 -0.0925" type="mesh" contype="1" conaffinity="1" mesh="L_Toe"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="R_Hip" pos="-0.0677 -0.0906 -0.0043" gravcomp="0">
+        <joint name="R_Hip_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+        <joint name="R_Hip_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+        <joint name="R_Hip_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+        <geom pos="0.0695 0.3139 -0.0239" type="mesh" contype="1" conaffinity="1" mesh="R_Hip"/>
+        <body name="R_Knee" pos="-0.0383 -0.3825 -0.0089" gravcomp="0">
+          <joint name="R_Knee_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+          <joint name="R_Knee_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+          <joint name="R_Knee_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+          <geom pos="0.1078 0.6964 -0.015" type="mesh" contype="1" conaffinity="1" mesh="R_Knee"/>
+          <body name="R_Ankle" pos="0.0158 -0.3984 -0.0423" gravcomp="0">
+            <joint name="R_Ankle_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+            <joint name="R_Ankle_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+            <joint name="R_Ankle_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+            <geom pos="0.092 1.0948 0.0273" type="mesh" contype="1" conaffinity="1" mesh="R_Ankle"/>
+            <body name="R_Toe" pos="-0.0254 -0.0482 0.1234" gravcomp="0">
+              <joint name="R_Toe_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+              <joint name="R_Toe_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+              <joint name="R_Toe_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+              <geom pos="0.1174 1.143 -0.0961" type="mesh" contype="1" conaffinity="1" mesh="R_Toe"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="Torso" pos="-0.0025 0.1089 -0.0267" gravcomp="0">
+        <joint name="Torso_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+        <joint name="Torso_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+        <joint name="Torso_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+        <geom pos="0.0043 0.1144 -0.0015" type="mesh" contype="1" conaffinity="1" mesh="Torso"/>
+        <body name="Spine" pos="0.0055 0.1352 0.0011" gravcomp="0">
+          <joint name="Spine_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+          <joint name="Spine_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+          <joint name="Spine_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+          <geom pos="-0.0012 -0.0208 -0.0026" type="mesh" contype="1" conaffinity="1" mesh="Spine"/>
+          <body name="Chest" pos="0.0014 0.0529 0.0254" gravcomp="0">
+            <joint name="Chest_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+            <joint name="Chest_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+            <joint name="Chest_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+            <geom pos="-0.0026 -0.0737 -0.028" type="mesh" contype="1" conaffinity="1" mesh="Chest"/>
+            <body name="Neck" pos="-0.0028 0.2139 -0.0428" gravcomp="0">
+              <joint name="Neck_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+              <joint name="Neck_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+              <joint name="Neck_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+              <geom pos="0.0002 -0.2876 0.0148" type="mesh" contype="1" conaffinity="1" mesh="Neck"/>
+              <body name="Head" pos="0.0052 0.065 0.0513" gravcomp="0">
+                <joint name="Head_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                <joint name="Head_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                <joint name="Head_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                <geom pos="-0.005 -0.3526 -0.0365" type="mesh" contype="1" conaffinity="1" mesh="Head"/>
+              </body>
+            </body>
+            <body name="L_Thorax" pos="0.0789 0.1218 -0.034" gravcomp="0">
+              <joint name="L_Thorax_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+              <joint name="L_Thorax_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+              <joint name="L_Thorax_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+              <geom pos="-0.0815 -0.1955 0.006" type="mesh" contype="1" conaffinity="1" mesh="L_Thorax"/>
+              <body name="L_Shoulder" pos="0.0909 0.0305 -0.0089" gravcomp="0">
+                <joint name="L_Shoulder_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                <joint name="L_Shoulder_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                <joint name="L_Shoulder_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                <geom pos="-0.1724 -0.226 0.0149" type="mesh" contype="1" conaffinity="1" mesh="L_Shoulder"/>
+                <body name="L_Elbow" pos="0.2596 -0.0128 -0.0275" gravcomp="0">
+                  <joint name="L_Elbow_z" pos="0 0 0" axis="0 0 1" range="-12.5664 12.5664"/>
+                  <joint name="L_Elbow_y" pos="0 0 0" axis="0 1 0" range="-12.5664 12.5664"/>
+                  <joint name="L_Elbow_x" pos="0 0 0" axis="1 0 0" range="-12.5664 12.5664"/>
+                  <geom pos="-0.432 -0.2132 0.0424" type="mesh" contype="1" conaffinity="1" mesh="L_Elbow"/>
+                  <body name="L_Wrist" pos="0.2493 0.009 -0.0011" gravcomp="0">
+                    <joint name="L_Wrist_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                    <joint name="L_Wrist_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                    <joint name="L_Wrist_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                    <geom pos="-0.6813 -0.2222 0.0435" type="mesh" contype="1" conaffinity="1" mesh="L_Wrist"/>
+                    <body name="L_Hand" pos="0.084 -0.0082 -0.015" gravcomp="0">
+                      <joint name="L_Hand_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                      <joint name="L_Hand_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                      <joint name="L_Hand_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                      <geom pos="-0.7653 -0.214 0.0585" type="mesh" contype="1" conaffinity="1" mesh="L_Hand"/>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+            <body name="R_Thorax" pos="-0.0817 0.1189 -0.0386" gravcomp="0">
+              <joint name="R_Thorax_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+              <joint name="R_Thorax_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+              <joint name="R_Thorax_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+              <geom pos="0.0791 -0.1926 0.0106" type="mesh" contype="1" conaffinity="1" mesh="R_Thorax"/>
+              <body name="R_Shoulder" pos="-0.0961 0.0325 -0.0091" gravcomp="0">
+                <joint name="R_Shoulder_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                <joint name="R_Shoulder_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                <joint name="R_Shoulder_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                <geom pos="0.1752 -0.2251 0.0197" type="mesh" contype="1" conaffinity="1" mesh="R_Shoulder"/>
+                <body name="R_Elbow" pos="-0.2537 -0.0133 -0.0214" gravcomp="0">
+                  <joint name="R_Elbow_z" pos="0 0 0" axis="0 0 1" range="-12.5664 12.5664"/>
+                  <joint name="R_Elbow_y" pos="0 0 0" axis="0 1 0" range="-12.5664 12.5664"/>
+                  <joint name="R_Elbow_x" pos="0 0 0" axis="1 0 0" range="-12.5664 12.5664"/>
+                  <geom pos="0.4289 -0.2118 0.0411" type="mesh" contype="1" conaffinity="1" mesh="R_Elbow"/>
+                  <body name="R_Wrist" pos="-0.2553 0.0078 -0.0056" gravcomp="0">
+                    <joint name="R_Wrist_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                    <joint name="R_Wrist_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                    <joint name="R_Wrist_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                    <geom pos="0.6842 -0.2196 0.0467" type="mesh" contype="1" conaffinity="1" mesh="R_Wrist"/>
+                    <body name="R_Hand" pos="-0.0846 -0.0062 -0.0103" gravcomp="0">
+                      <joint name="R_Hand_z" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159"/>
+                      <joint name="R_Hand_y" pos="0 0 0" axis="0 1 0" range="-3.14159 3.14159"/>
+                      <joint name="R_Hand_x" pos="0 0 0" axis="1 0 0" range="-3.14159 3.14159"/>
+                      <geom pos="0.7688 -0.2134 0.057" type="mesh" contype="1" conaffinity="1" mesh="R_Hand"/>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <general name="L_Hip_z" joint="L_Hip_z" actdim="0"/>
+    <general name="L_Hip_y" joint="L_Hip_y" actdim="0"/>
+    <general name="L_Hip_x" joint="L_Hip_x" actdim="0"/>
+    <general name="L_Knee_z" joint="L_Knee_z" actdim="0"/>
+    <general name="L_Knee_y" joint="L_Knee_y" actdim="0"/>
+    <general name="L_Knee_x" joint="L_Knee_x" actdim="0"/>
+    <general name="L_Ankle_z" joint="L_Ankle_z" actdim="0"/>
+    <general name="L_Ankle_y" joint="L_Ankle_y" actdim="0"/>
+    <general name="L_Ankle_x" joint="L_Ankle_x" actdim="0"/>
+    <general name="L_Toe_z" joint="L_Toe_z" actdim="0"/>
+    <general name="L_Toe_y" joint="L_Toe_y" actdim="0"/>
+    <general name="L_Toe_x" joint="L_Toe_x" actdim="0"/>
+    <general name="R_Hip_z" joint="R_Hip_z" actdim="0"/>
+    <general name="R_Hip_y" joint="R_Hip_y" actdim="0"/>
+    <general name="R_Hip_x" joint="R_Hip_x" actdim="0"/>
+    <general name="R_Knee_z" joint="R_Knee_z" actdim="0"/>
+    <general name="R_Knee_y" joint="R_Knee_y" actdim="0"/>
+    <general name="R_Knee_x" joint="R_Knee_x" actdim="0"/>
+    <general name="R_Ankle_z" joint="R_Ankle_z" actdim="0"/>
+    <general name="R_Ankle_y" joint="R_Ankle_y" actdim="0"/>
+    <general name="R_Ankle_x" joint="R_Ankle_x" actdim="0"/>
+    <general name="R_Toe_z" joint="R_Toe_z" actdim="0"/>
+    <general name="R_Toe_y" joint="R_Toe_y" actdim="0"/>
+    <general name="R_Toe_x" joint="R_Toe_x" actdim="0"/>
+    <general name="Torso_z" joint="Torso_z" actdim="0"/>
+    <general name="Torso_y" joint="Torso_y" actdim="0"/>
+    <general name="Torso_x" joint="Torso_x" actdim="0"/>
+    <general name="Spine_z" joint="Spine_z" actdim="0"/>
+    <general name="Spine_y" joint="Spine_y" actdim="0"/>
+    <general name="Spine_x" joint="Spine_x" actdim="0"/>
+    <general name="Chest_z" joint="Chest_z" actdim="0"/>
+    <general name="Chest_y" joint="Chest_y" actdim="0"/>
+    <general name="Chest_x" joint="Chest_x" actdim="0"/>
+    <general name="Neck_z" joint="Neck_z" actdim="0"/>
+    <general name="Neck_y" joint="Neck_y" actdim="0"/>
+    <general name="Neck_x" joint="Neck_x" actdim="0"/>
+    <general name="Head_z" joint="Head_z" actdim="0"/>
+    <general name="Head_y" joint="Head_y" actdim="0"/>
+    <general name="Head_x" joint="Head_x" actdim="0"/>
+    <general name="L_Thorax_z" joint="L_Thorax_z" actdim="0"/>
+    <general name="L_Thorax_y" joint="L_Thorax_y" actdim="0"/>
+    <general name="L_Thorax_x" joint="L_Thorax_x" actdim="0"/>
+    <general name="L_Shoulder_z" joint="L_Shoulder_z" actdim="0"/>
+    <general name="L_Shoulder_y" joint="L_Shoulder_y" actdim="0"/>
+    <general name="L_Shoulder_x" joint="L_Shoulder_x" actdim="0"/>
+    <general name="L_Elbow_z" joint="L_Elbow_z" actdim="0"/>
+    <general name="L_Elbow_y" joint="L_Elbow_y" actdim="0"/>
+    <general name="L_Elbow_x" joint="L_Elbow_x" actdim="0"/>
+    <general name="L_Wrist_z" joint="L_Wrist_z" actdim="0"/>
+    <general name="L_Wrist_y" joint="L_Wrist_y" actdim="0"/>
+    <general name="L_Wrist_x" joint="L_Wrist_x" actdim="0"/>
+    <general name="L_Hand_z" joint="L_Hand_z" actdim="0"/>
+    <general name="L_Hand_y" joint="L_Hand_y" actdim="0"/>
+    <general name="L_Hand_x" joint="L_Hand_x" actdim="0"/>
+    <general name="R_Thorax_z" joint="R_Thorax_z" actdim="0"/>
+    <general name="R_Thorax_y" joint="R_Thorax_y" actdim="0"/>
+    <general name="R_Thorax_x" joint="R_Thorax_x" actdim="0"/>
+    <general name="R_Shoulder_z" joint="R_Shoulder_z" actdim="0"/>
+    <general name="R_Shoulder_y" joint="R_Shoulder_y" actdim="0"/>
+    <general name="R_Shoulder_x" joint="R_Shoulder_x" actdim="0"/>
+    <general name="R_Elbow_z" joint="R_Elbow_z" actdim="0"/>
+    <general name="R_Elbow_y" joint="R_Elbow_y" actdim="0"/>
+    <general name="R_Elbow_x" joint="R_Elbow_x" actdim="0"/>
+    <general name="R_Wrist_z" joint="R_Wrist_z" actdim="0"/>
+    <general name="R_Wrist_y" joint="R_Wrist_y" actdim="0"/>
+    <general name="R_Wrist_x" joint="R_Wrist_x" actdim="0"/>
+    <general name="R_Hand_z" joint="R_Hand_z" actdim="0"/>
+    <general name="R_Hand_y" joint="R_Hand_y" actdim="0"/>
+    <general name="R_Hand_x" joint="R_Hand_x" actdim="0"/>
+  </actuator>
+</mujoco>
