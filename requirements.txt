@@ -21,6 +21,7 @@ opencv_python==4.8.0.74
 osqp==0.6.3
 Pillow==9.4.0
 pyautogui==0.9.54
+pysdf==0.1.9
 pyrender==0.1.45
 pyserial==3.5
 PyYAML==6.0.1

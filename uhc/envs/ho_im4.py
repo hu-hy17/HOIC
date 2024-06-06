@@ -1,11 +1,9 @@
 import argparse
 import os
 import sys
-
+import loguru
 import numpy as np
 import transforms3d.quaternions
-
-from uhc.utils.transforms import *
 
 sys.path.append(os.getcwd())
 
@@ -13,16 +11,16 @@ import mujoco_py
 import cvxopt
 import qpsolvers
 import transforms3d as t3d
+import loguru
+
 from gym import spaces
 from mujoco_py import functions as mjf
 from scipy.linalg import cho_solve, cho_factor
-
 from uhc.data_loaders.dataset_singledepth import DatasetSingleDepth
 from uhc.utils.config_utils.handmimic_config import Config
-
+from uhc.utils.transforms import *
 from uhc.khrylib.utils import *
 from uhc.khrylib.rl.envs.common import mujoco_env
-
 from uhc.utils.math_utils import *
 
 
@@ -94,12 +92,9 @@ class HandObjMimic4(mujoco_env.MujocoEnv):
             if not name.startswith('C_'):
                 self.obj_geom_range[1] = i - 1
                 break
-        print("Hand geom range: ", self.hand_geom_range)
-        print("Object geom idx: ", self.obj_geom_range)
         self.hand_mass = 0
         for idx in self.hand_body_idx:
             self.hand_mass += self.model.body_mass[idx]
-        print("Hand mass", self.hand_mass)
         self.hand_body_num = len(self.hand_body_idx)
         self.obj_contacts = np.array([])
         self.torque_lim = cfg.torque_lim
@@ -162,7 +157,7 @@ class HandObjMimic4(mujoco_env.MujocoEnv):
         self.action_space = spaces.Box(
             low=-np.ones(self.action_dim),
             high=np.ones(self.action_dim),
-            dtype=np.float32,
+            dtype=float,
         )
 
     def set_obs_spaces(self):

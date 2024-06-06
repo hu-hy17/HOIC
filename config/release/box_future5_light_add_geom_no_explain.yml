@@ -86,7 +86,7 @@ pd_type: "rel"
 meta_pd: false
 meta_pd_joint: false
 mujoco_model: assets/hand_model/spheremesh/sphere_mesh_hand_add_geom
-vis_model: assets/hand_model/spheremesh/sphere_mesh_display_white_black
+vis_model: assets/hand_model/spheremesh/sphere_mesh_display_add_geom
 
 sim_step: 15
 future_w_size: 5

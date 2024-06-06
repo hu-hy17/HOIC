@@ -335,7 +335,7 @@ if __name__ == '__main__':
         "motion_freq": 30,
         "sample_freq": 1,
         "with_obj": True,
-        "obj_fn": "assets/SingleDepth/box.xml",
+        "obj_fn": "assets/SingleDepth/box_light.xml",
     }
-    dataset = DatasetGRAB(model_fn, data_spec)
+    dataset = DatasetSingleDepthNew(model_fn, data_spec)
     dataset.show_expert()

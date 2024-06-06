@@ -3,10 +3,10 @@
         <mesh name="C_bottle1" file="Collision/bottle_top.stl" scale="0.95 0.95 0.95"/>
         <mesh name="C_bottle2" file="Collision/bottle_bot.stl" scale="0.95 0.95 0.95"/>
         <mesh name="V_bottle" file="Visual/bottle.stl" scale="1.00 1.00 1.00"/>
-        <material name="object" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>
-        <material name="object_ref" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>
-<!--        <material name="object" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>-->
-<!--        <material name="object_ref" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>-->
+<!--        <material name="object" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>-->
+<!--        <material name="object_ref" specular="0.75" shininess="0.1" reflectance="0.3" rgba="0.8 0.8 0.8 1.0"/>-->
+        <material name="object" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>
+        <material name="object_ref" specular="0" shininess="0" reflectance="0" rgba="0 0 0 1.0"/>
     </asset>
     <worldbody>
         <body name="bottle" pos="0 0 0" quat="1 0 0 0">

@@ -20,7 +20,6 @@ import transforms
 import mujoco_py as mjpy
 
 from uhc.data_loaders.mjxml.MujocoXML import MujocoXML
-from manopth.manolayer import ManoLayer
 
 kp_colors = [
     [1.0, 1.0, 1.0],

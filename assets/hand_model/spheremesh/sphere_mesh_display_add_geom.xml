@@ -80,31 +80,16 @@
         <material name="robot0:object" texture="robot0:texgeom" texuniform="false"/>
         <material name="floor_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.2 0.2 0.2 0"/>
         <material name="MatPlane" reflectance="0.3" shininess="1" specular="1" texrepeat="60 60" texture="robot0:texplane"/>
-
-        <mesh name="palm" file="../stls/manohand/palm_mean.stl"/>
-        <mesh name="ffdist" file="../stls/manohand/ffdist_mean.stl"/>
-        <mesh name="ffmiddle" file="../stls/manohand/ffmiddle_mean.stl"/>
-        <mesh name="ffprox" file="../stls/manohand/ffprox_mean.stl"/>
-        <mesh name="lfdist" file="../stls/manohand/lfdist_mean.stl"/>
-        <mesh name="lfmiddle" file="../stls/manohand/lfmiddle_mean.stl"/>
-        <mesh name="lfprox" file="../stls/manohand/lfprox_mean.stl"/>
-        <mesh name="mfdist" file="../stls/manohand/mfdist_mean.stl"/>
-        <mesh name="mfmiddle" file="../stls/manohand/mfmiddle_mean.stl"/>
-        <mesh name="mfprox" file="../stls/manohand/mfprox_mean.stl"/>
-        <mesh name="rfdist" file="../stls/manohand/rfdist_mean.stl"/>
-        <mesh name="rfmiddle" file="../stls/manohand/rfmiddle_mean.stl"/>
-        <mesh name="rfprox" file="../stls/manohand/rfprox_mean.stl"/>
-        <mesh name="thdist" file="../stls/manohand/thdist_mean.stl"/>
-        <mesh name="thmiddle" file="../stls/manohand/thmiddle_mean.stl"/>
-        <mesh name="thprox" file="../stls/manohand/thprox_mean.stl"/>
     </asset>
 
     <worldbody>
         <!-- Camera For live demo -->
 <!--        <camera pos="0.1257 -0.604077 0.7" euler="1.57 0 0" fovy="30"/>-->
 <!--        <camera pos="0.1257  0.604077 0.7" euler="1.57 3.14 0" fovy="30"/>-->
-<!--         Camera Align with left color camera -->
+
+        <!-- Camera Align with left color camera -->
         <camera pos="-0.0257 -0.004077 0.7" euler="1.57 0 0" fovy="42"/>
+
         <!-- Camera Align with right color camera -->
 <!--        <camera pos="-0.10419777 0.84889326 0.75024971" euler="-1.6006998265875683 -0.32790272749566135 3.032080668382398" fovy="42"/>-->
         <geom conaffinity="1" condim="3" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="100 100 .2" type="plane" material="MatPlane"/>

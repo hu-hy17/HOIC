@@ -1,71 +1,37 @@
 # -*- coding: utf-8 -*-
-import argparse
-import cProfile
 import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
 import sys
-import time
 
-import cv2
-
+sys.path.append(os.getcwd())
+import argparse
 import platform
+import cv2
+import loguru
+import glfw
+
 if platform.system() == 'Windows':
     os.add_dll_directory(os.path.abspath("mujoco210//bin"))
 
 import mujoco_py as mjpy
-import matplotlib.pyplot as plt
 from mujoco_py.generated import const
-import tqdm
 
 from uhc.data_loaders.dataset_singledepth import DatasetSingleDepth
-from uhc.envs.ho_im4 import HandObjMimic4, MotionData
+from uhc.envs.ho_im4 import HandObjMimic4
 from uhc.envs.ho_reward import *
 from uhc.khrylib.rl.core import PolicyGaussian
 from uhc.khrylib.models.mlp import MLP
 from uhc.khrylib.rl.core.critic import Value
 from uhc.utils.tools import CustomUnpickler
 from uhc.utils.torch_utils import *
-from visualize import ForceVisualizer
-
-os.environ["OMP_NUM_THREADS"] = "1"
-sys.path.append(os.getcwd())
 
 import torch
 import numpy as np
 
 from uhc.utils.config_utils.handmimic_config import Config
-from uhc.data_loaders.mjxml.MujocoXML import MujocoXML
-from metrics import PhysMetrics
-
-
-def load_display_xml(cfg):
-    hand_model_file = cfg.vis_model_file
-    obj_model_file = cfg.data_specs['obj_fn']
-    hand_model = MujocoXML(hand_model_file)
-    obj_model = MujocoXML(obj_model_file)
-    ref_obj_model = MujocoXML(obj_model_file)
-    # ref_obj_model2 = MujocoXML(obj_model_file)
-
-    ref_obj_model.worldbody.getchildren()[0].attrib['name'] += '_ref'
-    for ele in ref_obj_model.worldbody.getchildren()[0].getchildren():
-        if ele.tag == 'geom':
-            ele.attrib['material'] = "object_ref"
-            ele.attrib['name'] += "_ref"
-            # ele.attrib['group'] = "2"
-
-    hand_model.merge(obj_model)
-    hand_model.merge(ref_obj_model)
-
-    # get object mesh file
-    obj_mesh_fn = None
-    for c in obj_model.asset.getchildren():
-        if c.get('name').startswith('V_'):
-            obj_mesh_fn = c.get('file')
-            break
-    if obj_mesh_fn is None:
-        print("Error: No Object Mesh file Found!")
-        raise FileNotFoundError
-
-    return hand_model.get_xml(), obj_mesh_fn
+from metrics import PhysMetrics, PrecisionMetrics
+from uhc.utils.merge_model import merge_model_from_cfg
 
 
 if __name__ == "__main__":
@@ -77,34 +43,28 @@ if __name__ == "__main__":
     cfg.update(args)
 
     # display config
-    is_loop = False
-    is_record = True
-    is_eval = False
+    is_loop = True
+    is_record = False
+    is_eval = True
     is_show_contact = False
-    is_viz_force = False
-    is_viz_force_score = False
     is_view_gt = False  # Only for dexycb
-    is_view_value = False
     camera_view_id = 1
     is_reset = False
     reset_threshold = 12
-    dataset_mode = 'train'
+    dataset_mode = 'test'
 
     # setup display
-    display_xml, obj_mesh_fn = load_display_xml(cfg)
+    display_xml, obj_mesh_fn = merge_model_from_cfg(cfg)
     with open('display_model_tmp.xml', 'w') as f:
         f.write(display_xml)
-    # display_model = mjpy.load_model_from_xml(display_xml)
     display_model = mjpy.load_model_from_path('display_model_tmp.xml')
     display_sim = mjpy.MjSim(display_model)
     display_sim2 = mjpy.MjSim(display_model)
 
     # setup env
-    data_loader = DatasetGRAB(cfg.mujoco_model_file, cfg.data_specs, noise=0, mode=dataset_mode)
+    data_loader = DatasetSingleDepth(cfg.mujoco_model_file, cfg.data_specs, noise=0, mode=dataset_mode)
     expert_seq = data_loader.load_seq(0, full_seq=True)
-    # env = HandObjMimic3(cfg, expert_seq, data_loader.model_path, cfg.data_specs, mode="test")
     env = HandObjMimic4(cfg, expert_seq, data_loader.model_path, cfg.data_specs, mode="test")
-    # env = HandObjMimic2(cfg, expert_seq, data_loader.model_path, cfg.data_specs, mode="test")
 
     # prepare for contact render
     hand_geom_range = [-1, -1]
@@ -146,7 +106,7 @@ if __name__ == "__main__":
     policy_net = PolicyGaussian(cfg, action_dim=action_dim, state_dim=state_dim)
     value_net = Value(MLP(state_dim, cfg.value_hsize, cfg.value_htype))
     cp_path = f"{cfg.model_dir}/iter_{cfg.epoch:04d}.p"
-    print("loading model from checkpoint: %s" % cp_path)
+    loguru.logger.info("loading model from checkpoint: %s" % cp_path)
     model_cp = CustomUnpickler(open(cp_path, "rb")).load()
     policy_net.load_state_dict(model_cp["policy_dict"])
     value_net.load_state_dict(model_cp["value_dict"])
@@ -169,9 +129,10 @@ if __name__ == "__main__":
 
     reward_func = reward_list[cfg.reward_type - 1]
     seq_step = 1 if dataset_mode == 'test' else 4
-    # seq_step = 1
 
-    for seq_idx in tqdm.tqdm(range(1, 2, seq_step)):
+    loguru.logger.info('Start mimic...')
+
+    for seq_idx in range(0, 1, seq_step):
         seq_len = data_loader.get_len(seq_idx)
 
         all_obj_init_pos_seq.append(data_loader.get_obj_init_pos(seq_idx).numpy())
@@ -231,43 +192,30 @@ if __name__ == "__main__":
 
         total_step = ref_joint_pos.shape[0]
 
-        print("Avg tot reward: %.4f" % np.mean(tot_reward_seq[:-1]))
-        print("Avg all reward: ", np.mean(all_reward_seq, axis=0))
+        loguru.logger.info("Avg tot reward: %.4f" % np.mean(tot_reward_seq[:-1]))
 
         rfc_reward = all_reward_seq[:, -2]
 
-        # # Compute MPJPE, object pos error and orientation error
+        # Compute MPJPE, object pos error and orientation error
         pred_qpos_seq = np.stack(pred_qpos_seq)
         pred_joint_pos = np.stack(pred_joint_pos)
-        #
         sim_step = pred_joint_pos.shape[0]
 
-        print(str(sim_step) + '/' + str(total_step - 5))
+        loguru.logger.info('Mimic progress: %d/%d' % (sim_step, total_step - 5))
         gt_joint_pos = gt_joint_pos[:sim_step]
         ref_joint_pos = ref_joint_pos[:sim_step]
         ref_obj_pose_seq = ref_obj_pose_seq[:sim_step]
-        #
         mpjpe = np.mean(np.linalg.norm(pred_joint_pos - gt_joint_pos, axis=2), axis=0)[0]
-        print("MPJPE(Pred Vs GT): %.4f" % mpjpe)
-        mpjpe = np.mean(np.linalg.norm(ref_joint_pos - gt_joint_pos, axis=2))
-        print("MPJPE(Ref Vs GT): %.4f" % mpjpe)
+        loguru.logger.info("MPJPE (Mimic Vs Ref) (m): %.4f" % mpjpe)
         obj_pos_err = pred_qpos_seq[:, env.ndof:env.ndof + 3] - ref_obj_pose_seq[:, :3]
         obj_pos_err = np.linalg.norm(obj_pos_err, axis=1)
-        print("Obj pos err: %.4f" % np.mean(obj_pos_err))
+        loguru.logger.info("Obj pos err (m): %.4f" % np.mean(obj_pos_err))
         pred_obj_rot = torch.Tensor(pred_qpos_seq[:, env.ndof + 3:])
         gt_obj_rot = torch.Tensor(ref_obj_pose_seq[:, 3:])
         obj_quat_diff = quaternion_multiply_batch(gt_obj_rot, quaternion_inverse_batch(pred_obj_rot))
         obj_rot_diff = 2.0 * torch.arcsin(torch.clip(torch.norm(obj_quat_diff[:, 1:], dim=-1), 0, 1))
         obj_rot_diff = obj_rot_diff.cpu().numpy()
-        print("Obj rot err: %.4f" % np.mean(obj_rot_diff))
-
-        # plot value
-        if is_view_value:
-            plt.plot(value_seq)
-            plt.show()
-
-        # ref_qpos_seq[:, 0] += 0.2
-        # ref_obj_pose_seq[:, 0] += 0.2
+        loguru.logger.info("Obj rot err (rad): %.4f" % np.mean(obj_rot_diff))
 
         all_pred_qpos_seq.append(pred_qpos_seq)
         all_ref_qpos_seq.append(ref_qpos_seq)
@@ -279,41 +227,11 @@ if __name__ == "__main__":
             all_gt_qpos_seq.append(gt_qpos_seq)
             all_gt_obj_pose_seq.append(gt_obj_pose_seq)
 
-        ###############################
-        # Force Visualize
-        ###############################
-        if is_viz_force:
-            viz = ForceVisualizer(obj_mesh_fn=obj_mesh_fn,
-                                  mano_path='data/mano/models',
-                                  root_offset=data_loader.get_obj_init_pos(seq_idx).numpy(),
-                                  add_marker=False)
-            # viz.render(h_kps=np.stack(env.motion_data.hand_kps),
-            #            obj_pose=np.stack(env.motion_data.obj_pose),
-            #            cps=env.motion_data.contact_frames,
-            #            cpf=env.motion_data.contact_force,
-            #            cpb=env.motion_data.contact_body,
-            #            cps_ft=env.motion_data.compensate_ft,
-            #            rfc_rwd=rfc_reward)
-
-            render_save_dir = 'results/img/render/mimic/' + str(seq_idx)
-            if not os.path.exists(render_save_dir):
-                os.makedirs(render_save_dir)
-            frame_num = len(env.motion_data.hand_kps)
-            viz.render_skeleton(h_kps=np.stack(env.motion_data.hand_kps)[np.arange(0, frame_num, 15)],
-                                obj_pose=np.stack(env.motion_data.obj_pose)[np.arange(0, frame_num, 15)],
-                                save=True, save_dir=render_save_dir)
-
-            render_save_dir = 'results/img/render/ref/' + str(seq_idx)
-            if not os.path.exists(render_save_dir):
-                os.makedirs(render_save_dir)
-            viz.render_skeleton(h_kps=expert_seq.get('body_pos_seq'),
-                                obj_pose=expert_seq.get('obj_pose_seq'),
-                                save=True, save_dir=render_save_dir)
-
     ###############################
     # Eval
     ###############################
     if is_eval:
+        loguru.logger.info("Start Evaluation...")
         test_avg_pene_depth = [0, 0]
         test_cp_num = [0, 0]
         test_rft = [0, 0]
@@ -327,6 +245,32 @@ if __name__ == "__main__":
             sim_step = pred_qpos_seq.shape[0]
             ref_qpos_seq = np.concatenate([all_ref_qpos_seq[idx][:sim_step], all_obj_ref_pose_seq[idx][:sim_step]],
                                           axis=1)
+
+            ###############################
+            # Precision Metrics
+            ###############################
+            pred_qpos_seq_with_offset = pred_qpos_seq.copy()
+            pred_qpos_seq_with_offset[:, :3] += all_obj_init_pos_seq[idx]
+            pred_qpos_seq_with_offset[:, env.ndof: env.ndof + 3] += all_obj_init_pos_seq[idx]
+            ref_qpos_seq_with_offset = ref_qpos_seq.copy()
+            ref_qpos_seq_with_offset[:, :3] += all_obj_init_pos_seq[idx]
+            ref_qpos_seq_with_offset[:, env.ndof: env.ndof+3] += all_obj_init_pos_seq[idx]
+
+            pre_met_pred = PrecisionMetrics(pred_qpos_seq_with_offset, env.ndof, cfg.vis_model_file, cfg.data_specs.get('obj_fn'))
+            pre_met_ref = PrecisionMetrics(ref_qpos_seq_with_offset, env.ndof, cfg.vis_model_file, cfg.data_specs.get('obj_fn'))
+
+            pred_tips_error = pre_met_pred.eval_tips_error()
+            ref_tips_error = pre_met_ref.eval_tips_error()
+
+            pred_obj_IoU = pre_met_pred.eval_obj_error()
+            ref_obj_IoU = pre_met_ref.eval_obj_error()
+
+            loguru.logger.info('Avg Pixel Error of Tips (Mimic/Ref) (mm): %.4f/%.4f' % (pred_tips_error, ref_tips_error))
+            loguru.logger.info('Avg Object IoU (Mimic/Ref) (%%): %.4f/%.4f' % (pred_obj_IoU * 100, ref_obj_IoU * 100))
+
+            ###############################
+            # Physics Metrics
+            ###############################
             phy_met_pred = PhysMetrics(env.model, pred_qpos_seq, obj_mesh_fn)
             phy_met_ref = PhysMetrics(env.model, ref_qpos_seq, obj_mesh_fn)
 
@@ -338,8 +282,6 @@ if __name__ == "__main__":
             ref_cp_num = np.array(phy_met_ref.eval_contact_point())
             pred_rft = phy_met_pred.eval_stable()
             ref_rft = phy_met_ref.eval_stable()
-
-            # np.save('sa22_phys.npy', ref_rft)
 
             test_frame_num += sim_step
             test_avg_pene_depth[0] += np.sum(pred_pene)
@@ -356,42 +298,24 @@ if __name__ == "__main__":
             test_obj_ang_acc[0] += sim_step * pred_obj_ang_acc
             test_obj_ang_acc[1] += sim_step * ref_obj_ang_acc
 
-            print('Seq Idx: ' + str(idx))
-            print('Avg Pene Depth(Pred/Ref): ' + str(np.mean(pred_pene)) + '/' + str(np.mean(ref_pene)))
-            print('Avg Cp Num(Pred/Ref): ' + str(np.mean(pred_cp_num)) + '/' + str(np.mean(ref_cp_num)))
-            print('Avg Phys Plausible Frame Ratio(Pred/Ref)' + str(1 - np.mean(pred_rft)) + '/' + str(
-                1 - np.mean(ref_rft)))
-            print('Avg hand acc(Pred/Ref)' + str(pred_hand_acc) + '/' + str(ref_hand_acc))
-            print('Avg obj acc(Pred/Ref)' + str(pred_obj_acc) + '/' + str(ref_obj_acc))
-            print('Avg obj ang acc(Pred/Ref)' + str(pred_obj_ang_acc) + '/' + str(ref_obj_ang_acc))
+            loguru.logger.info('Avg Pene Depth (Mimic/Ref) (mm): %.4f/%.4f' % (np.mean(pred_pene), np.mean(ref_pene)))
+            loguru.logger.info('Avg Contact Point Num (Mimic/Ref): %.4f/%.4f' % (np.mean(pred_cp_num), np.mean(ref_cp_num)))
+            loguru.logger.info('Avg Phys Plausible Frame Ratio (Mimic/Ref) (%%): %.4f/%.4f' % (100 - np.mean(pred_rft) * 100, 100 - np.mean(ref_rft) * 100))
+            loguru.logger.info('Avg Hand Acc (Mimic/Ref) (m/s^2): %.4f/%.4f' % (pred_hand_acc, ref_hand_acc))
+            loguru.logger.info('Avg Obj Acc (Mimic/Ref) (m/s^2): %.4f/%.4f' % (pred_obj_acc, ref_obj_acc))
+            loguru.logger.info('Avg Obj Ang Acc (Mimic/Ref) (rad/s^2): %.4f/%.4f' % (pred_obj_ang_acc, ref_obj_ang_acc))
 
-        print('Total Avg Pene Depth(Pred/Ref): ' + str(test_avg_pene_depth[0] / test_frame_num) + '/' +
-              str(test_avg_pene_depth[1] / test_frame_num))
-        print('Total Avg Cp Num(Pred/Ref): ' + str(test_cp_num[0] / test_frame_num) + '/' +
-              str(test_cp_num[1] / test_frame_num))
-        print('Total Phys Plausible Frame Ratio(Pred/Ref)' + str(1 - test_rft[0] / test_frame_num) + '/' +
-              str(1 - test_rft[1] / test_frame_num))
-        print('Total hand acc(Pred/Ref): ' + str(test_hand_acc[0] / test_frame_num) + '/' +
-              str(test_hand_acc[1] / test_frame_num))
-        print('Total obj acc(Pred/Ref): ' + str(test_obj_acc[0] / test_frame_num) + '/' +
-              str(test_obj_acc[1] / test_frame_num))
-        print('Total obj ang acc(Pred/Ref): ' + str(test_obj_ang_acc[0] / test_frame_num) + '/' +
-              str(test_obj_ang_acc[1] / test_frame_num))
 
     ###############################
     # Display
     ###############################
+    loguru.logger.info('Start Visualization...')
     viewer = mjpy.MjViewer(display_sim)
     viewer2 = mjpy.MjViewer(display_sim2)
 
 
     # setup camera
     def setup_cam(viewer):
-        # viewer.cam.trackbodyid = 3
-        # viewer.cam.distance = 0.4
-        # viewer.cam.lookat[0] = 0.05
-        # viewer.cam.lookat[1] = 0
-        # viewer.cam.lookat[2] = 0.7
         viewer.cam.fixedcamid += camera_view_id
         viewer.cam.type = const.CAMERA_FIXED
 
@@ -399,7 +323,14 @@ if __name__ == "__main__":
     setup_cam(viewer)
     setup_cam(viewer2)
 
+    # Setup Window
     video_size = (640, 480)
+    glfw.set_window_size(viewer.window, video_size[0], video_size[1])
+    glfw.set_window_size(viewer2.window, video_size[0], video_size[1])
+    glfw.set_window_pos(viewer.window, 0, 100)
+    glfw.set_window_pos(viewer2.window, video_size[0], 100)
+    glfw.set_window_title(viewer.window, 'Mimic')
+    glfw.set_window_title(viewer2.window, 'Reference')
 
     loop_count = 100000 if is_loop else len(all_pred_qpos_seq)
     for seq_idx in range(loop_count):
@@ -420,63 +351,10 @@ if __name__ == "__main__":
         ref_qpos_seq[:, :3] += root_offset
         ref_obj_pose_seq[:, :3] += root_offset
 
-        # output 2D key points position
-        output_folder = 'results/keypoints'
-        tip_body_idx = [6, 10, 14, 18, 22]
-        # Front Camera
-        cam_mat = np.array([
-            [1, 0, 0, -0.0257],
-            [0, 0, -1, -0.004077],
-            [0, 1, 0, 0.7],
-            [0, 0, 0, 1]
-        ])
-        # Back Camera
-        # cam_mat = np.array([
-        #     [-0.941048, -0.10347, -0.322058, -0.10419777],
-        #     [-0.323253, -0.005463, 0.946296, 0.84889326],
-        #     [-0.099672, 0.994618, -0.028306, 0.75024971],
-        #     [0, 0, 0, 1]
-        # ])
-        fx = fy = 613.296
-        cx = 314.159
-        cy = 234.363
-        all_pred_tps = []
-        all_ref_tps = []
-        for qpos in pred_qpos_seq:
-            display_sim.data.qpos[:env.hand_qpos_dim] = qpos[:env.hand_qpos_dim]
-            display_sim.forward()
-            tip_kps = display_sim.data.body_xpos[tip_body_idx]
-            tip_kps = np.matmul(tip_kps - cam_mat[:3, 3], cam_mat[:3, :3])
-            u = -fx * tip_kps[:, 0] / tip_kps[:, 2] + cx
-            v = fy * tip_kps[:, 1] / tip_kps[:, 2] + cy
-            # canvas = np.ones((480, 640, 3), dtype=np.uint8) * 255
-            # for k in range(5):
-            #     x, y = round(u[k]), round(v[k])
-            #     cv2.circle(canvas, (x, y), 3, (0, 0, 0), -1)
-            # cv2.imshow("Canvas", canvas)
-            # cv2.waitKey(30)
-            all_pred_tps.append(np.stack([u, v]).T)
-        for qpos in ref_qpos_seq:
-            display_sim.data.qpos[:env.hand_qpos_dim] = qpos[:env.hand_qpos_dim]
-            display_sim.forward()
-            tip_kps = display_sim.data.body_xpos[tip_body_idx]
-            tip_kps = np.matmul(tip_kps - cam_mat[:3, 3], cam_mat[:3, :3])
-            u = -fx * tip_kps[:, 0] / tip_kps[:, 2] + cx
-            v = fy * tip_kps[:, 1] / tip_kps[:, 2] + cy
-            # canvas = np.ones((480, 640, 3), dtype=np.uint8) * 255
-            # for k in range(5):
-            #     x, y = round(u[k]), round(v[k])
-            #     cv2.circle(canvas, (x, y), 3, (0, 0, 0), -1)
-            # cv2.imshow("Canvas", canvas)
-            # cv2.waitKey(30)
-            all_ref_tps.append(np.stack([u, v]).T)
-        np.save(os.path.join(output_folder, 'pred_tps.npy'), np.stack(all_pred_tps))
-        np.save(os.path.join(output_folder, 'ref_tps.npy'), np.stack(all_ref_tps))
-
         # create output folder
-        output_folder = 'results/img/' + str(seq_idx)
+        output_folder = 'results/img/%s/%d' % (cfg.id, seq_idx)
         if not os.path.exists(output_folder):
-            os.mkdir(output_folder)
+            os.makedirs(output_folder, exist_ok=True)
 
         for idx in range(len(pred_qpos_seq) - 1):
             cur_t = idx
@@ -485,7 +363,6 @@ if __name__ == "__main__":
                 display_sim2.data.qpos[env.hand_qpos_dim: 2 * env.hand_qpos_dim] = gt_qpos_seq[cur_t]
             else:
                 display_sim2.data.qpos[env.hand_qpos_dim: 2 * env.hand_qpos_dim] = ref_qpos_seq[cur_t]
-            # display_sim2.data.qpos[env.hand_qpos_dim: 2 * env.hand_qpos_dim] = target_hand_pose_seq[cur_t]
 
             display_sim.data.qpos[2 * env.hand_qpos_dim: 2 * env.hand_qpos_dim + 7] = pred_qpos_seq[cur_t][
                                                                                       env.hand_qpos_dim:]
@@ -514,18 +391,6 @@ if __name__ == "__main__":
             if not is_record:
                 viewer._markers[:] = []
                 viewer2._markers[:] = []
-                viewer.add_marker(pos=np.array([0, 0.2, 0.7]),
-                                  label=str(idx),
-                                  rgba=np.array([1.0, 0, 0, 1.0]),
-                                  size=[0.001, 0.001, 0.001])
-                viewer.add_marker(pos=np.array([0.12, 0.3, 0.7 + 2 / 20]),
-                                  label='',
-                                  rgba=np.array([1.0, 0, 0.0, 1.0]),
-                                  size=[0.01, 0.01, 0.001])
-                viewer.add_marker(pos=np.array([0.12, 0.3, 0.7 + vf_score / 20]),
-                                  label='',
-                                  rgba=np.array([0.0, 0, 1.0, 1.0]),
-                                  size=[0.01, 0.01, vf_score / 20])
                 if is_show_contact:
                     for c in contact_arr:
                         viewer.add_marker(pos=c[:3] + root_offset,
@@ -542,19 +407,6 @@ if __name__ == "__main__":
             else:
                 # Render ref and mimic
                 viewer._markers[:] = []
-                # viewer.add_marker(pos=np.array([0, 0.2, 0.7]),
-                #                   label=str(idx),
-                #                   rgba=np.array([1.0, 0, 0, 1.0]),
-                #                   size=[0.001, 0.001, 0.001])
-                if is_viz_force_score:
-                    viewer.add_marker(pos=np.array([0.12, 0.3, 0.7 + 2 / 20]),
-                                      label='',
-                                      rgba=np.array([1.0, 0, 0.0, 1.0]),
-                                      size=[0.01, 0.01, 0.001])
-                    viewer.add_marker(pos=np.array([0.12, 0.3, 0.7 + vf_score / 20]),
-                                      label='',
-                                      rgba=np.array([0.0, 0, 1.0, 1.0]),
-                                      size=[0.01, 0.01, vf_score / 20])
                 if is_show_contact:
                     for c in contact_arr:
                         viewer.add_marker(pos=c[:3] + root_offset,
