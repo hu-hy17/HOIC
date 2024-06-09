@@ -70,7 +70,7 @@ data_specs:
   dataset_name: Tracking
   seq_name: banana_seq
   expert_fn: sample_data/SingleDepth/Banana/banana_seq.pkl
-  test_expert_fn: sample_data/SingleDepth/Banana/banana_cmp_seq.pkl
+  test_expert_fn: sample_data/SingleDepth/Banana/banana_test_seq.pkl
   clip_s: 0     # for single clip only
   clip_e: 600   # for single clip only
   max_len: 200

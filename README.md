@@ -116,3 +116,22 @@ This is the official implementation of paper:
 
    **Note:** Currently this project only support **single thread training on** **Windows** platform, which is very slow (There is something wrong with `multiprocessing` library on Windows). For higher speed, please use **Linux** platform for training.
 
+
+
+## Citation
+
+```latex
+@article{hu2024hand,
+  title={Hand-Object Interaction Controller (HOIC): Deep Reinforcement Learning for Reconstructing Interactions with Physics},
+  author={Hu, Haoyu and Yi, Xinyu and Cao, Zhe and Yong, Jun-Hai and Xu, Feng},
+  journal={arXiv preprint arXiv:2405.02676},
+  year={2024}
+}
+```
+
+
+
+## Acknowledgement
+
+- This repository is built upon [UHC: Universal Humanoid Controller](https://github.com/ZhengyiLuo/UHC)
+

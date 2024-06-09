@@ -289,7 +289,7 @@ class PrecisionMetrics:
         self.color_offset_dict = {
             'Box': 393,
             'Bottle': 684,
-            'Banana': 532
+            'Banana': 533
         }
 
         self.tips_map = {
