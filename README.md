@@ -1,5 +1,3 @@
-**Note: This repository is under building!!!**
-
 ## Introduction
 
 This is the official implementation of paper:
